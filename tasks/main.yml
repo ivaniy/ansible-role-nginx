@@ -1,8 +1,5 @@
 ---
 
-#- name: Get ubuntu ubuntu_version
-#- debug: var=ansible_facts
-
 - name: Import tasks if its debian os family
   import_tasks: debian.yml
   when: ansible_facts['os_family']|lower == 'debian'
@@ -17,18 +14,11 @@
   apt_key:
     url: https://nginx.org/keys/nginx_signing.key
     state: present
-  # notify: update repo
-
-# - name: Remove unsupportet repo
-#   apt_repository:
-#     repo: deb http://archive.getdeb.net/ubuntu
-#     state: absent
 
 - name: Add a nginx repository
   apt_repository:
     repo: deb http://nginx.org/packages/ubuntu {{ansible_facts['lsb']['codename']}} nginx
     state: present
-  # notify: update repo
 
 #- meta: flush_handlers
 
@@ -44,15 +34,3 @@
     name: nginx
     enabled: yes
     state: started
-
-
-
-
-
-#echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx"     | sudo tee /etc/apt/sources.list.d/nginx.list
-#curl -fsSL https://nginx.org/keys/nginx_signing.key | sudo apt-key add -
-#sudo apt-get update
-#sudo apt-get install nginx -y
-#sudo service nginx enable
-#sudo cp /home/vagrant/wrdprs.conf /etc/nginx/conf.d/
-#sudo service nginx restart
