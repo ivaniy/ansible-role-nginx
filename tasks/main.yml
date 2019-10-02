@@ -24,7 +24,7 @@
 
 - name: Install nginx
   apt:
-    name: nginx
+    name: "{{ nginx_packet }}"
     state: present
     update_cache: true
     force_apt_get: yes
